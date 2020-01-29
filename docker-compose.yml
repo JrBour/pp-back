@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  php:
+    build: ./docker/php
+    container_name: pp-back-php
+    restart: on-failure
+    volumes:
+      - ./:/var/www
+
+  db:
+    image: postgres:11.6
+    container_name: pp-back-db
+    restart: on-failure
+    environment:
+      POSTGRES_DB: pp-back
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  web:
+    build: ./docker/nginx
+    container_name: pp-back-nginx
+    restart: on-failure
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - php
+
+  adminer:
+    image: adminer
+    container_name: pp-back-adminer
+    restart: on-failure
+    ports:
+      - 8080:8080
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
