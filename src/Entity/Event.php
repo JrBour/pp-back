@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventsRepository")
+ * @ORM\Table(name="events")
  */
-class Events
+class Event
 {
     /**
      * @ORM\Id()
@@ -51,15 +52,15 @@ class Events
     /**
      * @ORM\Column(type="datetime")
      */
-    private $start_at;
+    private $startAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $end_at;
+    private $endAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     private $author;
@@ -67,12 +68,27 @@ class Events
     /**
      * @ORM\Column(type="boolean")
      */
-    private $share_fees;
+    private $shareFees;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserEvent", inversedBy="event_id")
+     * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="event")
      */
     private $userEvents;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Expense", mappedBy="event")
+     */
+    private $expenses;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Album", mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $album;
+
+    public function __construct()
+    {
+        $this->userEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,32 +169,32 @@ class Events
 
     public function getStartAt(): ?\DateTimeInterface
     {
-        return $this->start_at;
+        return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeInterface $start_at): self
+    public function setStartAt(\DateTimeInterface $startAt): self
     {
-        $this->start_at = $start_at;
+        $this->startAt = $startAt;
 
         return $this;
     }
 
     public function getEndAt(): ?\DateTimeInterface
     {
-        return $this->end_at;
+        return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeInterface $end_at): self
+    public function setEndAt(\DateTimeInterface $endAt): self
     {
-        $this->end_at = $end_at;
+        $this->endAt = $endAt;
 
         return $this;
     }
 
     /**
-     * @return Collection|users[]
+     * @return User
      */
-    public function getAuthor(): Collection
+    public function getAuthor(): User
     {
         return $this->author;
     }
@@ -186,29 +202,95 @@ class Events
     public function setAuthor(User $author): self
     {
         $this->author = $author;
+
         return $this;
     }
 
     public function getShareFees(): ?bool
     {
-        return $this->share_fees;
+        return $this->shareFees;
     }
 
-    public function setShareFees(bool $share_fees): self
+    public function setShareFees(bool $shareFees): self
     {
-        $this->share_fees = $share_fees;
+        $this->shareFees = $shareFees;
 
         return $this;
     }
 
-    public function getUsersEvents(): ?UsersEvents
+    /**
+     * @return Collection|UserEvent[]
+     */
+    public function getUsersEvents(): Collection
     {
-        return $this->usersEvents;
+        return $this->userEvents;
     }
 
-    public function setUsersEvents(?UsersEvents $usersEvents): self
+    public function addUserEvent(UserEvent $userEvent): self
     {
-        $this->usersEvents = $usersEvents;
+        if (!$this->userEvents->contains($userEvent)) {
+            $this->userEvents[] = $userEvent;
+            $userEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserEvent(UserEvent $userEvent): self
+    {
+        if ($this->userEvents->contains($userEvent)) {
+            $this->userEvents->removeElement($userEvent);
+            if ($userEvent->getEvent() === $this) {
+                $userEvent->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Expense[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->contains($expense)) {
+            $this->expenses->removeElement($expense);
+            if ($expense->getEvent() === $this) {
+                $expense->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAlbum(): ?Album
+    {
+        return $this->album;
+    }
+
+    public function setAlbum(Album $album): self
+    {
+        $this->album = $album;
+
+        // set the owning side of the relation if necessary
+        if ($album->getEvent() !== $this) {
+            $album->setEvent($this);
+        }
 
         return $this;
     }

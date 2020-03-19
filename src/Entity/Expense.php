@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ExpensesRepository")
+ * @ORM\Table(name="expenses")
  */
-class Expenses
+class Expense
 {
     /**
      * @ORM\Id()
@@ -24,14 +25,16 @@ class Expenses
     private $amount;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\users", mappedBy="expenses")
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     */
+    private $event;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -51,33 +54,36 @@ class Expenses
     }
 
     /**
-     * @return Collection|users[]
+     * @return Event
      */
-    public function getUser(): Collection
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function setEvent(Event $event): void
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(users $user): self
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setExpenses($this);
-        }
-
-        return $this;
+        $this->user = $user;
     }
 
-    public function removeUser(users $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getExpenses() === $this) {
-                $user->setExpenses(null);
-            }
-        }
 
-        return $this;
-    }
 }

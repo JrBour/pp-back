@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersEventsRepository")
+ * @ORM\Table(name="users_events")
  */
-class UsersEvents
+class UserEvent
 {
     /**
      * @ORM\Id()
@@ -19,14 +18,16 @@ class UsersEvents
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\users", mappedBy="usersEvents")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user_id;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\events", mappedBy="usersEvents")
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
-    private $event_id;
+    private $event;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -38,78 +39,11 @@ class UsersEvents
      */
     private $is_read;
 
-    public function __construct()
-    {
-        $this->user_id = new ArrayCollection();
-        $this->event_id = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|users[]
-     */
-    public function getUserId(): Collection
-    {
-        return $this->user_id;
-    }
-
-    public function addUserId(users $userId): self
-    {
-        if (!$this->user_id->contains($userId)) {
-            $this->user_id[] = $userId;
-            $userId->setUsersEvents($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserId(users $userId): self
-    {
-        if ($this->user_id->contains($userId)) {
-            $this->user_id->removeElement($userId);
-            // set the owning side to null (unless already changed)
-            if ($userId->getUsersEvents() === $this) {
-                $userId->setUsersEvents(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|events[]
-     */
-    public function getEventId(): Collection
-    {
-        return $this->event_id;
-    }
-
-    public function addEventId(events $eventId): self
-    {
-        if (!$this->event_id->contains($eventId)) {
-            $this->event_id[] = $eventId;
-            $eventId->setUsersEvents($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEventId(events $eventId): self
-    {
-        if ($this->event_id->contains($eventId)) {
-            $this->event_id->removeElement($eventId);
-            // set the owning side to null (unless already changed)
-            if ($eventId->getUsersEvents() === $this) {
-                $eventId->setUsersEvents(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getStatus(): ?string
     {
@@ -133,5 +67,37 @@ class UsersEvents
         $this->is_read = $is_read;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param mixed $event
+     */
+    public function setEvent(Event $event): void
+    {
+        $this->event = $event;
     }
 }

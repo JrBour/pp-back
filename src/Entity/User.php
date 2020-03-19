@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
+ * @ORM\Table(name="users")
  */
-class Users
+class User
 {
     /**
      * @ORM\Id()
@@ -42,19 +46,26 @@ class Users
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Events", inversedBy="author_id")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="author_id")
      */
     private $events;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UsersEvents", inversedBy="user_id")
+     * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="user")
      */
-    private $usersEvents;
+    private $userEvents;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Expenses", inversedBy="user")
+     * @ORM\OneToMany(targetEntity="Expense", mappedBy="user")
      */
     private $expenses;
+
+    public function __construct()
+    {
+        $this->expenses = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->userEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,38 +132,92 @@ class Users
         return $this;
     }
 
-    public function getEvents(): ?Events
+    /**
+     * @return Collection|UserEvent[]
+     */
+    public function getUsersEvents(): Collection
     {
-        return $this->events;
+        return $this->userEvents;
     }
 
-    public function setEvents(?Events $events): self
+    public function addUserEvent(UserEvent $userEvent): self
     {
-        $this->events = $events;
+        if (!$this->userEvents->contains($userEvent)) {
+            $this->userEvents[] = $userEvent;
+            $userEvent->setEvent($this);
+        }
 
         return $this;
     }
 
-    public function getUsersEvents(): ?UsersEvents
+    public function removeUserEvent(UserEvent $userEvent): self
     {
-        return $this->usersEvents;
-    }
-
-    public function setUsersEvents(?UsersEvents $usersEvents): self
-    {
-        $this->usersEvents = $usersEvents;
+        if ($this->userEvents->contains($userEvent)) {
+            $this->userEvents->removeElement($userEvent);
+            if ($userEvent->getEvent() === $this) {
+                $userEvent->setEvent(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getExpenses(): ?Expenses
+    /**
+     * @return Collection|UserEvent[]
+     */
+    public function getEvents(): Collection
     {
-        return $this->expenses;
+        return $this->userEvents;
     }
 
-    public function setExpenses(?Expenses $expenses): self
+    public function addEvent(Event $event): self
     {
-        $this->expenses = $expenses;
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            if ($event->getAuthor() === $this) {
+                $event->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserEvent[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->userEvents;
+    }
+
+    public function addExpense(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            if ($event->getAuthor() === $this) {
+                $event->setAuthor(null);
+            }
+        }
 
         return $this;
     }

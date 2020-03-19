@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediasRepository")
+ * @ORM\Table(name="medias")
  */
-class Medias
+class Media
 {
     /**
      * @ORM\Id()
@@ -19,28 +20,18 @@ class Medias
     /**
      * @ORM\Column(type="string", length=125)
      */
-    private $name;
+    private $path;
 
     /**
-     * @ORM\Column(type="string", length=125)
+     * @ORM\ManyToOne(targetEntity="Album", inversedBy="medias")
+     * @ORM\JoinColumn(name="album_id", referencedColumnName="id")
      */
-    private $path;
+    private $album;
+
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getPath(): ?string
