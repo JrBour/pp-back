@@ -29,7 +29,7 @@ class Album
     private $event;
 
     /**
-     * @ORM\OneToMany(targetEntity="Media", inversedBy="album")
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="album")
      */
     private $medias;
 
