@@ -3,14 +3,14 @@ version: '3.7'
 services:
   php:
     build: ./docker/php
-    container_name: pp-back-php
+    container_name: back-php
     restart: on-failure
     volumes:
       - ./:/var/www
 
   db:
     image: postgres:11.6
-    container_name: pp-back-db
+    container_name: back-db
     restart: on-failure
     environment:
       POSTGRES_DB: pp-back
@@ -21,7 +21,7 @@ services:
 
   web:
     build: ./docker/nginx
-    container_name: pp-back-nginx
+    container_name: back-nginx
     restart: on-failure
     ports:
       - "80:80"
@@ -33,7 +33,7 @@ services:
 
   adminer:
     image: adminer
-    container_name: pp-back-adminer
+    container_name: back-adminer
     restart: on-failure
     ports:
       - 8080:8080
