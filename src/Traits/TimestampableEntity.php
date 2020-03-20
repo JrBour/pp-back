@@ -3,19 +3,25 @@
 namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 trait TimestampableEntity
 {
 
     /**
+     * @var \Datetime $createdAt
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", name="created_at")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
+     * @var \Datetime $updatedAt
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", name="updated_at")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @return mixed
