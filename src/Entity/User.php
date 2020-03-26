@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *          "controller"="App\Controller\RegisterUser"
  *     }
  *  })
- * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
 class User implements UserInterface

@@ -6,6 +6,7 @@
 parameters:
 
 services:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -22,6 +23,11 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: ['@App\Swagger\SwaggerDecorator.inner']
+        autoconfigure: false
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
