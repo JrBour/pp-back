@@ -45,6 +45,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=254)
      */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=254)
+     */
     private $email;
 
     /**
@@ -270,5 +275,21 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
     }
 }

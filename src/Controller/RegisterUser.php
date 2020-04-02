@@ -26,6 +26,7 @@ class RegisterUser extends AbstractController
         $user = new User();
         $user->setGivenName($data->getGivenName());
         $user->setLastName($data->getLastName());
+        $user->setPhone($data->getPhone());
         $user->setEmail($data->getEmail());
         $user->setPassword($this->encoder->encodePassword($user, $data->getPassword()));
         $this->em->persist($user);
