@@ -16,7 +16,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     "post_user"={
  *          "method"="POST",
  *          "path"="/register",
- *          "controller"="App\Controller\RegisterUser"
+ *          "deserialize"=false,
+ *          "controller"="App\Controller\RegisterUser",
+ *          "openapi_context"={
+ *              "requestBody"={
+ *                  "content"={
+ *                      "multipart/form-data"={
+ *                          "schema"={
+ *                              "type"="object",
+ *                              "properties"={
+ *                                  "file"={
+ *                                      "type"="string",
+ *                                      "format"="binary"
+ *                                  }
+ *                              }
+ *                          }
+ *                      }
+ *                  }
+ *              }
+ *         }
  *     }
  *  })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
