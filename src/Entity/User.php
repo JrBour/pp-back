@@ -6,6 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampableEntity;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,25 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     "post_user"={
  *          "method"="POST",
  *          "path"="/register",
- *          "deserialize"=false,
  *          "controller"="App\Controller\RegisterUser",
- *          "openapi_context"={
- *              "requestBody"={
- *                  "content"={
- *                      "multipart/form-data"={
- *                          "schema"={
- *                              "type"="object",
- *                              "properties"={
- *                                  "file"={
- *                                      "type"="string",
- *                                      "format"="binary"
- *                                  }
- *                              }
- *                          }
- *                      }
- *                  }
- *              }
- *         }
  *     }
  *  })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -71,9 +54,12 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=125, nullable=true)
+     * @var MediaObject|null
+     * @ORM\Column(name="image_id", nullable=true)
+     * @ORM\OneToOne(targetEntity="MediaObject")
+     * @ApiProperty(iri="http://schema.org/image")
      */
-    private $image;
+    public $image;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -143,12 +129,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?MediaObject
     {
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(?MediaObject $image): self
     {
         $this->image = $image;
 
