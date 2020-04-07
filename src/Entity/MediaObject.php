@@ -10,15 +10,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+
 /**
  * @ORM\Entity
  * @ApiResource(
+ *     iri="http://schema.org/MediaObject",
  *     normalizationContext={
  *         "groups"={"media_object_read"}
  *     },
  *     collectionOperations={
  *         "post"={
- *             "controller"="CreateMediaObject",
+ *             "controller"=CreateMediaObject::class,
+ *             "deserialize"=false,
  *             "validation_groups"={"Default", "media_object_create"},
  *             "openapi_context"={
  *                 "requestBody"={
