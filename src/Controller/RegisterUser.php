@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -16,13 +15,10 @@ class RegisterUser extends AbstractController
 
     private $encoder;
 
-    private $fileUploader;
-
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder, FileUploader $fileUploader)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $this->em = $entityManager;
         $this->encoder = $encoder;
-        $this->fileUploader = $fileUploader;
     }
 
     public function __invoke(User $data)
@@ -35,8 +31,7 @@ class RegisterUser extends AbstractController
         $user->setPassword($this->encoder->encodePassword($user, $data->getPassword()));
 
         if ($data->getImage()){
-            $imageName = $this->fileUploader->upload($data->getImage());
-            $user->setImage($imageName);
+            $user->setImage($data->getImage());
         }
 
         $this->em->persist($user);

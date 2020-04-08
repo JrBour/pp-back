@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     "post_user"={
  *          "method"="POST",
  *          "path"="/register",
- *          "controller"="RegisterUser",
+ *          "controller"="App\Controller\RegisterUser"
  *     }
  *  })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
