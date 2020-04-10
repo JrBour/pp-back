@@ -44,6 +44,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/media_objects, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
+        - { path: ^/api/users/[0-9]+/profile, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
         - { path: ^/documentation, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY  }

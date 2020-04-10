@@ -14,11 +14,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ApiResource(collectionOperations={
  *     "get",
+ *     "post",
  *     "post_user"={
  *          "method"="POST",
  *          "path"="/register",
  *          "controller"="App\Controller\RegisterUser"
- *     }
+ *     },
  *  })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
@@ -55,9 +56,8 @@ class User implements UserInterface
 
     /**
      * @var MediaObject|null
-     * @ORM\Column(name="image_id", nullable=true)
-     * @ORM\OneToOne(targetEntity="MediaObject")
-     * @ApiProperty(iri="http://schema.org/image")
+     * @ORM\OneToOne(targetEntity="MediaObject", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image_id", nullable=true)
      */
     public $image;
 

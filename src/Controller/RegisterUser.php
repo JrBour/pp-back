@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\MediaObject;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +31,9 @@ class RegisterUser extends AbstractController
         $user->setEmail($data->getEmail());
         $user->setPassword($this->encoder->encodePassword($user, $data->getPassword()));
 
-        if ($data->getImage()){
-            $user->setImage($data->getImage());
+        if ($data->getImage()) {
+            $mediaObject = $this->em->getRepository(MediaObject::class)->find($data->getImage());
+            $user->setImage($mediaObject);
         }
 
         $this->em->persist($user);
