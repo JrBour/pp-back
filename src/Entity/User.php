@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampableEntity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -21,6 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *          "controller"="App\Controller\RegisterUser"
  *     },
  *  })
+ * @ApiFilter(SearchFilter::class, properties={"givenName": "start", "lastName": "start"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */

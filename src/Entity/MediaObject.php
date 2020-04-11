@@ -78,6 +78,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                 }
  *             }
  *         },
+ *
  *         "get"
  *     },
  *     itemOperations={
