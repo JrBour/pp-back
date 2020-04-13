@@ -8,13 +8,17 @@ use App\Traits\TimestampableEntity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource(collectionOperations={
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ *     collectionOperations={
  *     "get",
  *     "post",
  *     "post_user"={
@@ -31,6 +35,7 @@ class User implements UserInterface
 {
     use TimestampableEntity;
     /**
+     * @Groups({"read"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -38,26 +43,31 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=125)
      */
     private $givenName;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=125)
      */
     private $lastName;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=254)
      */
     private $phone;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=254)
      */
     private $email;
 
     /**
+     * @Groups({ "read", "write"})
      * @var MediaObject|null
      * @ORM\OneToOne(targetEntity="MediaObject", inversedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="image_id", nullable=true)
@@ -65,6 +75,7 @@ class User implements UserInterface
     public $image;
 
     /**
+     * @Groups({"write"})
      * @ORM\Column(type="string", length=255)
      */
     private $password;

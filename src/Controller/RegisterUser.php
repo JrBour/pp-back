@@ -14,6 +14,7 @@ class RegisterUser extends AbstractController
 {
     private $em;
 
+    
     private $encoder;
 
     public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)

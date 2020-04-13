@@ -16,9 +16,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity
  * @ApiResource(
  *     iri="http://schema.org/MediaObject",
- *     normalizationContext={
- *         "groups"={"media_object_read"}
- *     },
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
  *     collectionOperations={
  *         "post"={
  *             "controller"=CreateMediaObject::class,
@@ -95,16 +94,15 @@ class MediaObject
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
-     * @Groups({"media_object_read"})
      */
     protected $id;
 
     /**
      * @var string|null
      *
-     * @Groups({"media_object_read"})
+     * @Groups({"read"})
      */
-    public $contentUrl;
+    private $contentUrl;
 
     /**
      * @var File|null
@@ -125,6 +123,7 @@ class MediaObject
      * @var string|null
      *
      * @ORM\Column(nullable=true)
+     * @Groups({"read"})
      */
     public $filePath;
 
@@ -148,4 +147,5 @@ class MediaObject
     {
         $this->user = $user;
     }
+
 }
