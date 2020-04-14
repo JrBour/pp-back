@@ -102,7 +102,7 @@ class MediaObject
      *
      * @Groups({"read"})
      */
-    private $contentUrl;
+    public $contentUrl;
 
     /**
      * @var File|null
