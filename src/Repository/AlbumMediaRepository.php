@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Media;
+use App\Entity\AlbumMedia;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Media|null find($id, $lockMode = null, $lockVersion = null)
- * @method Media|null findOneBy(array $criteria, array $orderBy = null)
- * @method Media[]    findAll()
- * @method Media[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AlbumMedia|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AlbumMedia|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AlbumMedia[]    findAll()
+ * @method AlbumMedia[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MediaRepository extends ServiceEntityRepository
+class AlbumMediaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Media::class);
+        parent::__construct($registry, AlbumMedia::class);
     }
 
     // /**

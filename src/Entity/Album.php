@@ -32,7 +32,7 @@ class Album
     private $event;
 
     /**
-     * @ORM\OneToMany(targetEntity="Media", mappedBy="album")
+     * @ORM\OneToMany(targetEntity="AlbumMedia", mappedBy="album")
      */
     private $medias;
 
@@ -71,14 +71,14 @@ class Album
     }
 
     /**
-     * @return Collection|UserEvent[]
+     * @return Collection|AlbumMedia[]
      */
     public function getMedias(): Collection
     {
         return $this->medias;
     }
 
-    public function addMedia(Media $media): self
+    public function addMedia(AlbumMedia $media): self
     {
         if (!$this->medias->contains($media)) {
             $this->medias[] = $media;
@@ -88,7 +88,7 @@ class Album
         return $this;
     }
 
-    public function removeMedia(Media $media): self
+    public function removeMedia(AlbumMedia $media): self
     {
         if ($this->medias->contains($media)) {
             $this->medias->removeElement($media);

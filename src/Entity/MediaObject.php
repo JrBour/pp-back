@@ -90,7 +90,7 @@ class MediaObject
 {
     /**
      * @var int|null
-     *
+     * @Groups({"read"})
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
@@ -120,6 +120,13 @@ class MediaObject
     private $user;
 
     /**
+     * @ORM\OneToOne(targetEntity="Event", mappedBy="image", orphanRemoval=true)
+     *
+     * @var Event
+     */
+    private $event;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(nullable=true)
@@ -146,6 +153,22 @@ class MediaObject
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return Event
+     */
+    public function getEvent(): Event
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function setEvent(Event $event): void
+    {
+        $this->event = $event;
     }
 
 }

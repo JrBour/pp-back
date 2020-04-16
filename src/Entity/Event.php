@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampableEntity;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource
@@ -35,9 +36,12 @@ class Event
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=125, nullable=true)
+     * @Groups({ "read", "write"})
+     * @var MediaObject|null
+     * @ORM\OneToOne(targetEntity="MediaObject", inversedBy="event", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image_id", nullable=true)
      */
-    private $image;
+    public $image;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -124,12 +128,12 @@ class Event
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?MediaObject
     {
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(?MediaObject $image): self
     {
         $this->image = $image;
 
