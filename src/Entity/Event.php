@@ -10,8 +10,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource
- * @ORM\Entity(repositoryClass="App\Repository\EventsRepository")
+ * @ApiResource(
+ *      normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
+ *      denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ * )
+ * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  * @ORM\Table(name="events")
  */
 class Event
@@ -19,6 +22,7 @@ class Event
     use TimestampableEntity;
 
     /**
+     * @Groups({"read"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -26,11 +30,13 @@ class Event
     private $id;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=90)
      */
     private $name;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255)
      */
     private $description;
@@ -44,52 +50,62 @@ class Event
     public $image;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255)
      */
     private $address;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=125)
      */
     private $city;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="integer")
      */
     private $zipcode;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="datetime")
      */
     private $startAt;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="datetime")
      */
     private $endAt;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     private $author;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="boolean")
      */
     private $shareFees;
 
     /**
+     * @Groups({"read"})
      * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="event")
      */
     private $userEvents;
 
     /**
+     * @Groups({"read"})
      * @ORM\OneToMany(targetEntity="Expense", mappedBy="event")
      */
     private $expenses;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\OneToOne(targetEntity="App\Entity\Album", mappedBy="event", cascade={"persist", "remove"})
      */
     private $album;
@@ -230,12 +246,12 @@ class Event
     /**
      * @return Collection|UserEvent[]
      */
-    public function getUsersEvents(): Collection
+    public function getUserEvents(): Collection
     {
         return $this->userEvents;
     }
 
-    public function addUserEvent(UserEvent $userEvent): self
+    public function addUserEvents(UserEvent $userEvent): self
     {
         if (!$this->userEvents->contains($userEvent)) {
             $this->userEvents[] = $userEvent;
@@ -245,7 +261,7 @@ class Event
         return $this;
     }
 
-    public function removeUserEvent(UserEvent $userEvent): self
+    public function removeUserEvents(UserEvent $userEvent): self
     {
         if ($this->userEvents->contains($userEvent)) {
             $this->userEvents->removeElement($userEvent);

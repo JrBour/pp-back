@@ -4,15 +4,20 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\UsersEventsRepository")
  * @ORM\Table(name="users_events")
  */
 class UserEvent
 {
     /**
+     * @Groups({"read"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -20,23 +25,27 @@ class UserEvent
     private $id;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
     private $event;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=30)
      */
     private $status;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\Column(type="boolean")
      */
     private $is_read;
