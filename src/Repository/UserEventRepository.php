@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\UsersEvents;
+use App\Entity\UserEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method UsersEvents|null find($id, $lockMode = null, $lockVersion = null)
- * @method UsersEvents|null findOneBy(array $criteria, array $orderBy = null)
- * @method UsersEvents[]    findAll()
- * @method UsersEvents[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserEvent|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserEvent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserEvent[]    findAll()
+ * @method UserEvent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UsersEventsRepository extends ServiceEntityRepository
+class UserEventRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UsersEvents::class);
+        parent::__construct($registry, UserEvent::class);
     }
 
     // /**

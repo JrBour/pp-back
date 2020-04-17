@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}},
  * )
- * @ORM\Entity(repositoryClass="App\Repository\UsersEventsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserEventRepository")
  * @ORM\Table(name="users_events")
  */
 class UserEvent
@@ -48,7 +48,7 @@ class UserEvent
      * @Groups({"read", "write"})
      * @ORM\Column(type="boolean")
      */
-    private $is_read;
+    private $is_read = false;
 
     public function getId(): ?int
     {
