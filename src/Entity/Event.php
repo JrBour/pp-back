@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -15,6 +18,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
  * )
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @ApiFilter(DateFilter::class, properties={"start_at"})
+ * @ApiFilter(SearchFilter::class, properties={"userEvents.user.id": "exact", "author.id": "exact"})
  * @ORM\Table(name="events")
  */
 class Event
@@ -94,7 +99,7 @@ class Event
 
     /**
      * @Groups({"read"})
-     * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="event", cascade={"persist", "remove"})
      */
     private $userEvents;
 
