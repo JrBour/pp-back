@@ -18,7 +18,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
  * )
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
- * @ApiFilter(DateFilter::class, properties={"start_at"})
+ * @ApiFilter(DateFilter::class, properties={"startAt", "endAt"})
  * @ApiFilter(SearchFilter::class, properties={"userEvents.user.id": "exact", "author.id": "exact"})
  * @ORM\Table(name="events")
  */
