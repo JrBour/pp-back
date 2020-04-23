@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Expenses;
+use App\Entity\Expense;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Expenses|null find($id, $lockMode = null, $lockVersion = null)
- * @method Expenses|null findOneBy(array $criteria, array $orderBy = null)
- * @method Expenses[]    findAll()
- * @method Expenses[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Expense|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Expense|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Expense[]    findAll()
+ * @method Expense[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ExpenseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Expenses::class);
+        parent::__construct($registry, Expense::class);
     }
 
     // /**

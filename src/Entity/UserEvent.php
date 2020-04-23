@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -12,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     denormalizationContext={"groups"={"write"}},
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserEventRepository")
+ * @ApiFilter(SearchFilter::class, properties={"user.id": "exact"})
  * @ORM\Table(name="users_events")
  */
 class UserEvent
@@ -26,7 +29,7 @@ class UserEvent
 
     /**
      * @Groups({"read", "write"})
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="userEvents")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}},
  * )
- * @ORM\Entity(repositoryClass="App\Repository\ExpensesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ExpenseRepository")
  * @ORM\Table(name="expenses")
  */
 class Expense
