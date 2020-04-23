@@ -14,7 +14,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     denormalizationContext={"groups"={"write"}},
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserEventRepository")
- * @ApiFilter(SearchFilter::class, properties={"user.id": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"user.id": "exact", "status" : "exact"})
  * @ORM\Table(name="users_events")
  */
 class UserEvent
@@ -51,7 +51,7 @@ class UserEvent
      * @Groups({"read", "write"})
      * @ORM\Column(type="boolean")
      */
-    private $is_read = false;
+    private $isRead = false;
 
     public function getId(): ?int
     {
@@ -73,12 +73,12 @@ class UserEvent
 
     public function getIsRead(): ?bool
     {
-        return $this->is_read;
+        return $this->isRead ;
     }
 
     public function setIsRead(bool $is_read): self
     {
-        $this->is_read = $is_read;
+        $this->isRead  = $is_read;
 
         return $this;
     }

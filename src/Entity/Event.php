@@ -19,7 +19,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  * @ApiFilter(DateFilter::class, properties={"startAt", "endAt"})
- * @ApiFilter(SearchFilter::class, properties={"userEvents.user.id": "exact", "author.id": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"userEvents.user.id": "exact", "userEvents.status": "exact", "author.id": "exact"})
  * @ORM\Table(name="events")
  */
 class Event
