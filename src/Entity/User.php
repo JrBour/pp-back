@@ -13,6 +13,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use \Ramsey\Uuid\UuidInterface;
 
 /**
  * @ApiResource(
@@ -34,11 +36,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     use TimestampableEntity;
+
     /**
+     * @var UuidInterface
+     *
      * @Groups({"read"})
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private $id;
 
@@ -59,6 +65,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=254)
      */
     private $phone;
+
+    /**
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $player_id;
 
     /**
      * @Groups({"read", "write"})
@@ -102,7 +114,10 @@ class User implements UserInterface
         $this->userEvents = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return UuidInterface|null
+     */
+    public function getId(): ?UuidInterface
     {
         return $this->id;
     }
@@ -309,5 +324,21 @@ class User implements UserInterface
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @return string/null
+     */
+    public function getPlayerId(): ?string
+    {
+        return $this->player_id;
+    }
+
+    /**
+     * @param string $playerId
+     */
+    public function setPlayerId(string $playerId): void
+    {
+        $this->player_id = $playerId;
     }
 }
