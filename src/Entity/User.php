@@ -70,7 +70,7 @@ class User implements UserInterface
      * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $player_id;
+    private $playerId;
 
     /**
      * @Groups({"read", "write"})
@@ -331,7 +331,7 @@ class User implements UserInterface
      */
     public function getPlayerId(): ?string
     {
-        return $this->player_id;
+        return $this->playerId;
     }
 
     /**
@@ -339,6 +339,6 @@ class User implements UserInterface
      */
     public function setPlayerId(string $playerId): void
     {
-        $this->player_id = $playerId;
+        $this->playerId = $playerId;
     }
 }
