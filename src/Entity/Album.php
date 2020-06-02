@@ -4,17 +4,25 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
+ *      denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ * )
+ * @ApiFilter(SearchFilter::class, properties={"event.userEvents.user.id": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
  * @ORM\Table(name="albums")
  */
 class Album
 {
     /**
+     * @Groups({"read"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,16 +30,19 @@ class Album
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string")
      */
     private $name;
 
     /**
+     * @Groups({"read", "write"})
      * @ORM\OneToOne(targetEntity="App\Entity\Event", inversedBy="album", cascade={"persist", "remove"})
      */
     private $event;
 
     /**
+     * @Groups({"read"})
      * @ORM\OneToMany(targetEntity="AlbumMedia", mappedBy="album")
      */
     private $medias;
