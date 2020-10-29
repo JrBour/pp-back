@@ -4,6 +4,9 @@ start:
 stop:
 	@docker-compose down
 
+test:
+	@docker-compose exec pp-back-php ./bin/phpunit
+
 install:
 	@docker-compose exec pp-back-php composer install
 
