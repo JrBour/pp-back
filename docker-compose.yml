@@ -3,7 +3,7 @@ version: '3.7'
 services:
   php:
     build: ./docker/php
-    container_name: back-php
+    container_name: plevent-php
     restart: on-failure
     volumes:
       - ./:/var/www
@@ -13,7 +13,7 @@ services:
     container_name: back-db
     restart: on-failure
     environment:
-      POSTGRES_DB: pp-back
+      POSTGRES_DB: plevent-back
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
@@ -21,7 +21,7 @@ services:
 
   web:
     build: ./docker/nginx
-    container_name: back-nginx
+    container_name: plevent-nginx
     restart: on-failure
     ports:
       - "80:80"
@@ -33,7 +33,7 @@ services:
 
   adminer:
     image: adminer
-    container_name: back-adminer
+    container_name: plevent-adminer
     restart: on-failure
     ports:
       - 8080:8080
