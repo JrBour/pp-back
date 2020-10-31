@@ -10,7 +10,7 @@ services:
 
   db:
     image: postgres:11.6
-    container_name: back-db
+    container_name: plevent-db
     restart: on-failure
     environment:
       POSTGRES_DB: plevent-back
