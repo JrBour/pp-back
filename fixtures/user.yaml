@@ -1,0 +1,9 @@
+App/Entity/User:
+  user_{1..10}:
+    givenName: <firstName()>
+    lastName: <lastName()>
+    phone: <phoneNumber()>
+    email: <email()>
+    password: <password()>
+    createdAt: <dateTimeBetween("-200 days", "now")>
+    updatedAt: <dateTimeBetween($created, "now")>
