@@ -1,0 +1,13 @@
+App/Entity/Event:
+  event_{1..10}:
+    name: <word()>
+    description: <sentence($nbWords = 6, $variableNbWords = true)>
+    image: null
+    city: <city()>
+    zipcode: <postcode()>
+    startAt: <dateTimeBetween("-100 days", "now")>
+    endAt: <dateTimeBetween("-99 days", "now")>
+    author: '@user'
+    shareFees: false
+    createdAt: <dateTimeBetween("-200 days", "now")>
+    updatedAt: <dateTimeBetween($created, "now")>
