@@ -1,0 +1,8 @@
+App/Entity/UserEvent:
+  userEvent_{1..10}:
+    isRead: false
+    user: '@user'
+    event: '@event'
+    status: 'waiting'
+    createdAt: <dateTimeBetween("-200 days", "now")>
+    updatedAt: <dateTimeBetween($created, "now")>
