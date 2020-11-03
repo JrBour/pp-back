@@ -1,0 +1,5 @@
+App/Entity/Album:
+  album_{1..10}:
+    name: words($nb = 3)
+    user: '@user'
+    event: '@event'
